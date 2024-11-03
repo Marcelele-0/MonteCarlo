@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "monte-carlo-integration"
+version = "0.1.0"
+description = "A project for approximating integrals using the Monte Carlo method."
+authors = ["279704@student.pwr.edu.pl"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.21"
+matplotlib = "^3.4"
+
+[tool.poetry.dev-dependencies]
+black = "^22.1"  # Optional: code formatter
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
