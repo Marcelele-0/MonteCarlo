@@ -1,13 +1,18 @@
 import hydra
 from omegaconf import DictConfig
 import numpy as np
+import logging
 from utils.calculate_M import calculate_M
 from utils.calculate_C import calculate_C_list
 from utils.approximate_integral import approximate_integral
 from utils.manage_results import visualize_results
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 @hydra.main(version_base=None, config_path="../configs", config_name="monte_carlo_config.yaml")
 def main(cfg: DictConfig):
+    logging.debug("Starting Monte Carlo simulation...")
     for function in cfg.monte_carlo_config.functions:
         try:
             n_max = cfg.monte_carlo_config.n_max
@@ -19,21 +24,26 @@ def main(cfg: DictConfig):
             # Calculate M
             M = calculate_M(function)
             M_numeric = float(M)
-            print(f'Calculated M for {function["key"]}: M = {M_numeric}')
+            logging.debug(f'Calculated M for {function["key"]}: M = {M_numeric}')
 
             # Dictionaries to store results for both k1 and k2
             integral_results_k1 = {n: [] for n in n_values}
             integral_results_k2 = {n: [] for n in n_values}
 
             for n in n_values:
+                if n % 100 == 0:
+                    logging.debug(f"Calculating for {function['key']} with n = {n}...")
                 # Calculations for k1
                 for _ in range(k1):
+                    logging.debug(f"Calculating for {function['key']} with n = {n} and k1 = {k1}...")
                     C_k1 = calculate_C_list(function, M_numeric, 1, [n])[0]
                     approximation_k1 = approximate_integral(float(C_k1), function, M_numeric, n)
                     integral_results_k1[n].append(float(approximation_k1))
 
                 # Calculations for k2
                 for _ in range(k2):
+                    if k2 % 10 == 0:
+                        logging.debug(f"Calculating for {function['key']} with n = {n} and k2 = {k2}...")
                     C_k2 = calculate_C_list(function, M_numeric, 1, [n])[0]
                     approximation_k2 = approximate_integral(float(C_k2), function, M_numeric, n)
                     integral_results_k2[n].append(float(approximation_k2))
@@ -46,7 +56,7 @@ def main(cfg: DictConfig):
             visualize_results(integral_results_k1, integral_mean_k1, integral_results_k2, integral_mean_k2, function, save_path, k1, k2)
 
         except Exception as e:
-            print(f"Error calculating for {function['key']}: {e}")
+            logging.critical(f"Error calculating for {function['key']}: {e}")
 
 if __name__ == "__main__":
     main()
