@@ -8,9 +8,8 @@ authors = ["279704@student.pwr.edu.pl"]
 python = "^3.9"
 numpy = "^1.21"
 matplotlib = "^3.4"
+sympy = "^1.9"
 
-[tool.poetry.dev-dependencies]
-black = "^22.1"  # Optional: code formatter
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
