@@ -5,7 +5,7 @@ monte_carlo_config:
   n_step: 50
 
   k_1: 5
-  k_2: 2
+  k_2: 50
 
   functions: 
     - key: "Fn1" 
