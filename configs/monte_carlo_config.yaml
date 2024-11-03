@@ -1,13 +1,13 @@
 # target: src/monte_carlo.py
 
 monte_carlo_config:
-  n_max: 300
+  n_max: 5000
   n_step: 50
 
   k_1: 5
-  k_2: 50
+  k_2: 2
 
-  functions:  
+  functions: 
     - key: "Fn1" 
       a: 0
       b: 8
@@ -25,9 +25,3 @@ monte_carlo_config:
       b: 1
       fn: "4*x*(1-x)**3" 
       exac_value: 0.2
-
-    - key: "Fn4"
-      a: -1
-      b: 1
-      fn: "Pi"
-      exact_value: 3.141592653589793

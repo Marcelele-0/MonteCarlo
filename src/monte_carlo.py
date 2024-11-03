@@ -1,18 +1,22 @@
+import logging
 import hydra
 from omegaconf import DictConfig
 import numpy as np
-import logging
 from utils.calculate_M import calculate_M
 from utils.calculate_C import calculate_C_list
 from utils.approximate_integral import approximate_integral
 from utils.manage_results import visualize_results
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format="%(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="../configs", config_name="monte_carlo_config.yaml")
 def main(cfg: DictConfig):
-    logging.debug("Starting Monte Carlo simulation...")
+    # Ensure Hydra does not override the logging configuration
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.info("Starting Monte Carlo simulation...")
+
     for function in cfg.monte_carlo_config.functions:
         try:
             n_max = cfg.monte_carlo_config.n_max
