@@ -1,13 +1,15 @@
 # target: src/monte_carlo.py
 
 monte_carlo_config:
-  n_max: 5000
+  n_max: 200
   n_step: 50
 
   k_1: 5
-  k_2: 50
+  k_2: 1
 
   functions: 
+    - key: Pi
+      exac_value: 3.141592653589793
     - key: "Fn1" 
       a: 0
       b: 8
