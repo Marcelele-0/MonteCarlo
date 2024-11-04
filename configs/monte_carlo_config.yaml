@@ -1,11 +1,11 @@
 # target: src/monte_carlo.py
 
 monte_carlo_config:
-  n_max: 200
+  n_max: 5000
   n_step: 50
 
   k_1: 5
-  k_2: 1
+  k_2: 50
 
   functions: 
     - key: Pi

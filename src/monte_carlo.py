@@ -3,8 +3,8 @@ import hydra
 from omegaconf import DictConfig
 import numpy as np
 from utils.calculate_M import calculate_M
-from utils.calculate_C import calculate_C_parallel, get_numeric_function
-from utils.approximate_integral import approximate_integral, approximate_pi
+from utils.calculate_C import calculate_integrals_parallel, get_numeric_function
+from utils.approximate_pi import approximate_pi
 from utils.manage_results import visualize_results, visualize_results_Pi
 
 # Set up logging
@@ -48,26 +48,20 @@ def main(cfg: DictConfig):
                     integral_mean_k1[n] = np.mean(integral_results_k1[n])
                     integral_mean_k2[n] = np.mean(integral_results_k2[n])
 
-
                 # Temporarily set logging level to WARNING to suppress logging
                 previous_logging_level = logging.getLogger().getEffectiveLevel()
                 logging.getLogger().setLevel(logging.WARNING)
 
                 # Visualize results
                 visualize_results_Pi(
-                    integral_results_k1,
-                    integral_mean_k1,
-                    integral_results_k2,
-                    integral_mean_k2,
-                    save_path=save_path,  
-                    function=function,
-                    k1=k1,
-                    k2=k2
+                    integral_results_k1, integral_mean_k1,
+                    integral_results_k2, integral_mean_k2,
+                    save_path=save_path, function=function,
+                    k1=k1, k2=k2
                 )
 
                 # Restore previous logging level
                 logging.getLogger().setLevel(previous_logging_level)
-
 
             except Exception as e:
                 logging.critical(f"Error calculating for {function['key']}: {e}")
@@ -75,36 +69,37 @@ def main(cfg: DictConfig):
         else:
             try:
                 function_config = function
-                # Przygotowanie funkcji numerycznej i obliczenie stałej M
+                # Prepare the numeric function and calculate the constant M
                 numeric_function = get_numeric_function(function_config['fn'])
                 M = calculate_M(function_config)
                 a, b = function_config['a'], function_config['b']
 
-                # Słowniki do przechowywania wyników
+                # Dictionaries to store results
                 integral_results_k1 = {n: [] for n in n_values}
                 integral_results_k2 = {n: [] for n in n_values}
                 integral_mean_k1 = {}
                 integral_mean_k2 = {}
 
-                # Obliczanie dla każdego n i dla obu wartości k
+                # Calculations for each n and for both k values
                 for n in n_values:
-                    logging.info(f"Obliczenia dla n = {n}")
+                    logging.debug(f"Calculating for n = {n}")
 
-                    # Obliczenia dla k1
-                    integral_results_k1[n] = calculate_C_parallel(n, numeric_function, M, a, b, k1)
+                    # Calculations for k1
+                    integral_results_k1[n] = calculate_integrals_parallel(n, numeric_function, M, a, b, k1)
                     integral_mean_k1[n] = np.mean(integral_results_k1[n])
 
-                    # Obliczenia dla k2
-                    integral_results_k2[n] = calculate_C_parallel(n, numeric_function, M, a, b, k2)
+                    # Calculations for k2
+                    integral_results_k2[n] = calculate_integrals_parallel(n, numeric_function, M, a, b, k2)
                     integral_mean_k2[n] = np.mean(integral_results_k2[n])
 
-                # Wizualizacja wyników
+                # Visualize results
                 visualize_results(
                     integral_results_k1, integral_mean_k1,
                     integral_results_k2, integral_mean_k2,
                     save_path=save_path, function=function_config,
                     k1=k1, k2=k2
                 )
+
             except Exception as e:
                 logging.critical(f"Error calculating for {function['key']}: {e}")
 
