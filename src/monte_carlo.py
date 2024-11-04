@@ -27,14 +27,15 @@ def main(cfg: DictConfig):
                 # Dictionaries to store results for both k1 and k2
                 integral_results_k1 = {n: [] for n in n_values}
                 integral_results_k2 = {n: [] for n in n_values}
-                save_path = "results/monte_carlo"
+                save_path = "results/monte_carlo_precision"
                 integral_mean_k1 = {}
                 integral_mean_k2 = {}
 
                 k1, k2 = cfg.monte_carlo_config.k_1, cfg.monte_carlo_config.k_2
 
                 for n in n_values:
-                    logging.debug(f"Calculating n = {n}")
+                    if n % 1000 == 0:
+                        logging.debug(f"Calculating n = {n}")
                     for _ in range(k1):
                         approx = approximate_pi(n)
                         integral_results_k1[n].append(approx)
@@ -73,6 +74,7 @@ def main(cfg: DictConfig):
                 numeric_function = get_numeric_function(function_config['fn'])
                 M = calculate_M(function_config)
                 a, b = function_config['a'], function_config['b']
+                save_path = "results/monte_carlo_precision"
 
                 # Dictionaries to store results
                 integral_results_k1 = {n: [] for n in n_values}
@@ -82,7 +84,8 @@ def main(cfg: DictConfig):
 
                 # Calculations for each n and for both k values
                 for n in n_values:
-                    logging.debug(f"Calculating for n = {n}")
+                    if n % 1000 == 0:
+                        logging.debug(f"Calculating for n = {n}")
 
                     # Calculations for k1
                     integral_results_k1[n] = calculate_integrals_parallel(n, numeric_function, M, a, b, k1)

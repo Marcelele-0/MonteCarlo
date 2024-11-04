@@ -94,7 +94,7 @@ def visualize_results_Pi(
     k1: int,
     k2: int,
     show_plot: bool = False,
-    colors: dict = {'individual': 'blue', 'mean': 'red', 'exac': '90EE90'}
+    colors: dict = {'individual': 'blue', 'mean': 'red', 'exac': '#90EE90'}
 ):
     """
     Visualize the results of π approximations for two different k values.

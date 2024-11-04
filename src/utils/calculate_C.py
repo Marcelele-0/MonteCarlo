@@ -39,7 +39,7 @@ def calculate_integrals_parallel(n, numeric_function, M, a, b, k):
     Returns:
     list: List of estimated integral values.
     """
-    return Parallel(n_jobs=-1)(
+    return Parallel(n_jobs=10)(
         delayed(calculate_C_vectorized)(n, numeric_function, M, a, b) for _ in range(k)
     )
 

@@ -2,10 +2,10 @@
 
 monte_carlo_config:
   n_max: 5000
-  n_step: 50
+  n_step: 25
 
   k_1: 5
-  k_2: 50
+  k_2: 500
 
   functions: 
     - key: Pi
