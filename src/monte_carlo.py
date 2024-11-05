@@ -8,7 +8,7 @@ from utils.approximate_pi import approximate_pi
 from utils.manage_results import visualize_results, visualize_results_Pi
 
 # Set up logging
-logging.basicConfig(level=logging.DEBUG, format="%(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="../configs", config_name="monte_carlo_config.yaml")
