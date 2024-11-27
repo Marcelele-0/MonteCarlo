@@ -1,0 +1,9 @@
+# target: src\simulation\balls_bins.py\
+
+
+max_number_of_bins: 100000
+step_size: 1000
+
+independent_runs: 50
+
+result_file_path: results/raw_results.json
