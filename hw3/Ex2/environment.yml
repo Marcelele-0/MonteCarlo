@@ -1,0 +1,12 @@
+name: MonteCarlo
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip
+  - pip:
+      - hydra-core
+      - matplotlib
+      - pandas
+      - pytest

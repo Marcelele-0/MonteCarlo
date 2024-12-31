@@ -1,0 +1,21 @@
+experiment:
+  start: 100
+  end: 10000
+  step: 100
+  repetitions: 50
+  output_file: "results.json"
+
+logging:
+  version: 1
+  formatters:
+    simple:
+      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: simple
+      stream: ext://sys.stdout
+  root:
+    level: INFO
+    handlers: [console]
